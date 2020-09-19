@@ -3,6 +3,12 @@
 ## "Always Look at the Brighter Side"
 Pressure and negativity can oftentimes cause us to overlook the positives events in our lives. I know I struggle with this a lot, so I'm building a tool that can help track and remind myself of all the good that has and continues to happen in life. Hope this can be of use to some of you all as well :]
 
+<div align="center">
+    <img src="./docs/design-sketches/main_screen_initial_sketch.png"
+         alt="Image of Home Screen"/>
+         <! -- width="1980" height="1080" border="10" --> 
+</div>
+
 
 ## Current Goals/Sprints
 These are some established goals that I'm actively working on. Timeline may change as life gets busy or frees up, but it's always important to have goals!

@@ -1,7 +1,23 @@
 # BrighterSide
 
-## "Always look at the brighter side"
+## "Always Look at the Brighter Side"
 Pressure and negativity can oftentimes cause us to overlook the positives events in our lives. I know I struggle with this a lot, so I'm building a tool that can help track and remind myself of all the good that has and continues to happen in life. Hope this can be of use to some of you all as well :]
+
+<div align="center">
+    <img src="./docs/design-sketches/main_screen_initial_sketch.png"
+         alt="Image of Home Screen"/>
+         <! -- width="1980" height="1080" border="10" --> 
+</div>
+
+
+## Current Goals/Sprints
+These are some established goals that I'm actively working on. Timeline may change as life gets busy or frees up, but it's always important to have goals!
+1. Finish initial data structure
+2. Sketch user flow outline
+3. Establish initial DB choice / connection
+4. Construct initial CRUD API for data entities
+5. Test CRUD API using Postman
+6. Connect Backend API to basic Frontend display
 
 
 ## /dev/ Log

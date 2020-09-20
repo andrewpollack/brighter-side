@@ -9,7 +9,7 @@ Pressure and negativity can oftentimes cause us to overlook the positives events
          <! -- width="1980" height="1080" border="10" --> 
 </div>
 
-## Interested in Learning More?
+## Want To Learn More?
 Check out the [wiki](https://github.com/andrewpollack/brighter-side/wiki) to find a user guide, learn more about design decisions, as well as how to get started developing BrighterSide!
 
 ## Current Goals/Sprints

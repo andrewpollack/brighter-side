@@ -7,14 +7,17 @@ Current entities within the app will be `Users` and `Moments`. A typical flow is
 ## Users
 | Field  |  Data Type  |
 |----------|--------|
-| user_id  | uuid   |
+| user_id  | Object_Id   |
 | username | String |
 | password | String |
+| email | String |
+| firstname | String |
+| moments | Lost of Moment Object_ID |
 
 ## Moments
 | Field  |  Data Type  |
 |----------|--------|
-| moment_id  | uuid   |
-| user_owner_id | uuid |
+| moment_id  | Object_Id   |
+| user_owner_id | User Object_Id |
 | text_description | String |
 | date | DateTime |

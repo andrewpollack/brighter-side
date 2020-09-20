@@ -8,18 +8,24 @@ require('dotenv').config();
 const PORT = process.env.PORT || 5000; // PORT if specified, else 5000
 const URI = process.env.ATLAS_URI;
 
+// Middleware
+app.use(express.json()); // Parse JSON
+
 
 // MongoDB Atlas Connection
-mongoose.connect(URI, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true }
+mongoose.connect(URI, {useNewUrlParser: true,
+  useCreateIndex: true,
+  useUnifiedTopology: true},
 );
 const connection = mongoose.connection;
 connection.once('open', () => {
-  logger.timestampedLog('MongoDB Atlas connection successful.')
-})
-
-app.get('/', function (req, res) {
-  res.send('Hello World!');
+  logger.timestampedLog('MongoDB Atlas connection successful');
 });
-app.listen(PORT, function () {
-  logger.timestampedLog(`Server running on Port ${PORT}!`);
+
+const usersRouter = require('./routes/users');
+app.use('/users', usersRouter);
+
+// BEGIN: Express/NodeJS Server Listening
+app.listen(PORT, () => {
+  logger.timestampedLog(`Express server running on port: ${PORT}.`);
 });

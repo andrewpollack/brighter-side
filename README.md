@@ -10,7 +10,7 @@ Pressure and negativity can oftentimes cause us to overlook the positives events
 </div>
 
 ## Interested in Learning More?
-Check out the [wiki](https://github.com/andrewpollack/brighter-side/wiki) to learn more about design decisions, as well as how to get started developing BrighterSide!
+Check out the [wiki](https://github.com/andrewpollack/brighter-side/wiki) to find a user guide, learn more about design decisions, as well as how to get started developing BrighterSide!
 
 ## Current Goals/Sprints
 These are some established goals that I'm actively working on. Timeline may change as life gets busy or frees up, but it's always important to have goals!

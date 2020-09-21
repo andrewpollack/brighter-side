@@ -95,6 +95,120 @@ router.route('/get/profile').post((req, res) => {
 
 
 /**
+ * POST users/update/profile
+ *
+ * Updates the current logged in profile with any updated fields passed.
+ *
+ * INPUTS:
+ * - token = req.body.token
+ */
+router.route('/update/profile').post((req, res) => {
+  endpoint = `POST ${CURR_ROUTER}/update/profile`;
+  logger.logEndpoint(endpoint, 'START');
+
+  // Token validation
+  const {decoded, errors, isValid} = validator.validateToken(req.body);
+
+  // Check validation
+  if (!isValid) {
+    logger.logEndpoint(endpoint, 'COMPLETED: A');
+    return res.status(STANDARD_ERROR).json(errors);
+  }
+
+  const userid = decoded.id;
+
+  User.findById(userid)
+      .then((user) => {
+        if (!user) {
+          // No user found
+          logger.logEndpoint(endpoint, 'COMPLETED: A');
+          return res.status(NO_RESULT_ERROR).json(NRF_MESSAGE);
+        } else {
+          // Found user, updating info
+          userUpdate = {};
+
+          if (Object.keys(req.body).includes('username')) {
+            userUpdate.username = req.body.username;
+          }
+
+          if (Object.keys(req.body).includes('firstname')) {
+            userUpdate.firstname = req.body.firstname;
+          } else {
+            userUpdate.firstname = user.firstname;
+          }
+
+          if (Object.keys(req.body).includes('email')) {
+            userUpdate.email = req.body.email;
+          }
+
+          if (Object.keys(req.body).includes('password')) {
+            // TODO: Turn this into async function for changing password
+            bcrypt.genSalt(10, (err, salt) => {
+              bcrypt.hash(req.body.password, salt, (err, hash) => {
+                if (err) throw err;
+                userUpdate.password = hash;
+                User.updateOne( {_id: userid}, userUpdate)
+                    .then(() => {
+                      const payload = {
+                        id: userid,
+                        firstname: userUpdate.firstname,
+                      };
+
+                      // Sign token
+                      jwt.sign( payload, 'secret',
+                          {
+                            expiresIn: 31556926, // 1 year in seconds
+                          },
+                          (err, token) => {
+                            logger.logEndpoint(endpoint, 'COMPLETED: C');
+                            return res.status(GOOD_RESULT).json(
+                                {success: true, token: token});
+                          },
+                      );
+                    })
+                    .catch((err) => {
+                      logger.logEndpoint(endpoint, 'FAILED: A');
+                      return res.status(STANDARD_ERROR)
+                          .json(ERROR_MESSAGE + err);
+                    });
+              });
+            });
+          }
+
+          User.updateOne( {_id: userid}, userUpdate)
+              .then(() => {
+                const payload = {
+                  id: userid,
+                  firstname: userUpdate.firstname,
+                };
+                console.log(payload);
+
+                // Sign token
+                jwt.sign( payload, 'secret',
+                    {
+                      expiresIn: 31556926, // 1 year in seconds
+                    },
+                    (err, token) => {
+                      logger.logEndpoint(endpoint, 'COMPLETED: C');
+                      return res.status(GOOD_RESULT).json(
+                          {success: true, token: token});
+                    },
+                );
+              })
+              .catch((err) => {
+                logger.logEndpoint(endpoint, 'FAILED: A');
+                return res.status(STANDARD_ERROR).json(ERROR_MESSAGE + err);
+              });
+        }
+      })
+      .catch((err) => {
+        logger.logEndpoint(endpoint, 'FAILED: A');
+        return res.status(STANDARD_ERROR).json(ERROR_MESSAGE + err);
+      });
+});
+
+
+/**
  * POST users/register
  *
  * Registers a new user from information specified in body.

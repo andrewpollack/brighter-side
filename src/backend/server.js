@@ -27,5 +27,5 @@ app.use('/users', usersRouter);
 
 // BEGIN: Express/NodeJS Server Listening
 app.listen(PORT, () => {
-  logger.timestampedLog(`Express server running on port: ${PORT}.`);
+  logger.timestampedLog(`Express server running on port: ${PORT}`);
 });

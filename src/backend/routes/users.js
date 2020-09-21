@@ -126,22 +126,27 @@ router.route('/update/profile').post((req, res) => {
         } else {
           // Found user, updating info
           userUpdate = {};
+          needsUpdate = false;
 
           if (Object.keys(req.body).includes('username')) {
             userUpdate.username = req.body.username;
+            needsUpdate = true;
           }
 
           if (Object.keys(req.body).includes('firstname')) {
             userUpdate.firstname = req.body.firstname;
+            needsUpdate = true;
           } else {
             userUpdate.firstname = user.firstname;
           }
 
           if (Object.keys(req.body).includes('email')) {
             userUpdate.email = req.body.email;
+            needsUpdate = true;
           }
 
           if (Object.keys(req.body).includes('password')) {
+            needsUpdate = true;
             // TODO: Turn this into async function for changing password
             bcrypt.genSalt(10, (err, salt) => {
               bcrypt.hash(req.body.password, salt, (err, hash) => {
@@ -175,13 +180,18 @@ router.route('/update/profile').post((req, res) => {
             });
           }
 
+          if (!needsUpdate) {
+            logger.logEndpoint(endpoint, 'COMPLETED: C');
+            return res.status(GOOD_RESULT).json(
+                {success: true, result: 'No changes.'});
+          }
+
           User.updateOne( {_id: userid}, userUpdate)
               .then(() => {
                 const payload = {
                   id: userid,
                   firstname: userUpdate.firstname,
                 };
-                console.log(payload);
 
                 // Sign token
                 jwt.sign( payload, 'secret',

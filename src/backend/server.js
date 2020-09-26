@@ -23,7 +23,10 @@ connection.once('open', () => {
 });
 
 const usersRouter = require('./routes/users');
+const momentsRouter = require('./routes/moments');
 app.use('/users', usersRouter);
+app.use('/moments', momentsRouter);
+
 
 // BEGIN: Express/NodeJS Server Listening
 app.listen(PORT, () => {

@@ -47,80 +47,6 @@ router.route('/:id').get((req, res) => {
       });
 });
 
-
-/**
- * POST users/register
- *
- * Registers a new user from information specified in body.
- *
- * INPUTS:
- * - token = req.body.token
- * - textdescription = req.body.textdescription;
- * - date = req.body.date;
- *
-router.route('/update').post((req, res) => {
-  endpoint = `POST ${CURR_ROUTER}/create`;
-  logger.logEndpoint(endpoint, 'START');
-
-  // Token validation
-  const {decoded, errors, isValid} = validator.validateToken(req.body);
-
-  // Check validation
-  if (!isValid) {
-    logger.logEndpoint(endpoint, 'COMPLETED: A');
-    return res.status(STANDARD_ERROR).json(errors);
-  }
-
-  const ownerId = decoded.id;
-  const textDescription = req.body.textDescription;
-  const dateObject = new Date();
-
-  const newMoment = new Moment({
-    ownerId,
-    textDescription,
-    date: dateObject,
-  });
-
-
-  User.findById(ownerId)
-      .then((user) => {
-        if (!user) {
-          // No user found, don't create moment
-          logger.logEndpoint(endpoint, 'COMPLETED: A');
-          return res.status(NO_RESULT_ERROR).json(NRF_MESSAGE);
-        } else {
-          // Found user, saving new moment
-          newMoment.save()
-              .then((moment) => {
-                momentId = moment._id;
-                console.log(momentId);
-                userUpdatedMoments = user.moments;
-                userUpdatedMoments.push(momentId);
-
-                // Updating user's info to have moment
-                User.updateOne({_id: ownerId}, {moments: userUpdatedMoments} )
-                    .then(() => {
-                      logger.logEndpoint(endpoint, 'COMPLETED: B');
-                      return res.status(GOOD_RESULT).json('Moment Created');
-                    })
-                    .catch((err) => {
-                      logger.logEndpoint(endpoint, 'FAILED: A');
-                      return res.status(STANDARD_ERROR)
-                          .json(ERROR_MESSAGE + err);
-                    });
-              })
-              .catch((err) => {
-                logger.logEndpoint(endpoint, 'FAILED: A');
-                return res.status(STANDARD_ERROR).json(ERROR_MESSAGE + err);
-              });
-        }
-      })
-      .catch((err) => {
-        logger.logEndpoint(endpoint, 'FAILED: A');
-        return res.status(STANDARD_ERROR).json(ERROR_MESSAGE + err);
-      });
-});*/
-
 /**
  * POST users/register
  *
@@ -269,5 +195,78 @@ router.route('/delete').post((req, res) => {
         return res.status(STANDARD_ERROR).json(ERROR_MESSAGE + err);
       });
 });
+
+/**
+ * POST users/register
+ *
+ * Registers a new user from information specified in body.
+ *
+ * INPUTS:
+ * - token = req.body.token
+ * - textdescription = req.body.textdescription;
+ * - date = req.body.date;
+ *
+router.route('/update').post((req, res) => {
+  endpoint = `POST ${CURR_ROUTER}/create`;
+  logger.logEndpoint(endpoint, 'START');
+
+  // Token validation
+  const {decoded, errors, isValid} = validator.validateToken(req.body);
+
+  // Check validation
+  if (!isValid) {
+    logger.logEndpoint(endpoint, 'COMPLETED: A');
+    return res.status(STANDARD_ERROR).json(errors);
+  }
+
+  const ownerId = decoded.id;
+  const textDescription = req.body.textDescription;
+  const dateObject = new Date();
+
+  const newMoment = new Moment({
+    ownerId,
+    textDescription,
+    date: dateObject,
+  });
+
+
+  User.findById(ownerId)
+      .then((user) => {
+        if (!user) {
+          // No user found, don't create moment
+          logger.logEndpoint(endpoint, 'COMPLETED: A');
+          return res.status(NO_RESULT_ERROR).json(NRF_MESSAGE);
+        } else {
+          // Found user, saving new moment
+          newMoment.save()
+              .then((moment) => {
+                momentId = moment._id;
+                console.log(momentId);
+                userUpdatedMoments = user.moments;
+                userUpdatedMoments.push(momentId);
+
+                // Updating user's info to have moment
+                User.updateOne({_id: ownerId}, {moments: userUpdatedMoments} )
+                    .then(() => {
+                      logger.logEndpoint(endpoint, 'COMPLETED: B');
+                      return res.status(GOOD_RESULT).json('Moment Created');
+                    })
+                    .catch((err) => {
+                      logger.logEndpoint(endpoint, 'FAILED: A');
+                      return res.status(STANDARD_ERROR)
+                          .json(ERROR_MESSAGE + err);
+                    });
+              })
+              .catch((err) => {
+                logger.logEndpoint(endpoint, 'FAILED: A');
+                return res.status(STANDARD_ERROR).json(ERROR_MESSAGE + err);
+              });
+        }
+      })
+      .catch((err) => {
+        logger.logEndpoint(endpoint, 'FAILED: A');
+        return res.status(STANDARD_ERROR).json(ERROR_MESSAGE + err);
+      });
+});*/
 
 module.exports = router;

@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-// const Moment = require('./moment.model');
 
 const userSchema = new Schema({
   username: {type: String, required: true, unique: true, trim: true,

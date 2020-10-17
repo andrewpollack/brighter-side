@@ -7,7 +7,7 @@ const userSchema = new Schema({
   password: {type: String, required: true, trim: true, minlength: 6},
   email: {type: String, required: true, unique: true, trim: true},
   firstname: {type: String, required: true, trim: true},
-  // moments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Moment' }],
+  moments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Moment'}],
 }, {
   timestamps: true, // Adds field for when created/modified
 });
